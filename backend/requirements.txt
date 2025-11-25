@@ -1,0 +1,6 @@
+fastapi
+uvicorn
+nltk
+networkx
+numpy
+scikit-learn
