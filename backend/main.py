@@ -7,16 +7,35 @@ from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from typing import List
 import uvicorn
+import os
 
-# Download necessary NLTK data
+# Configure NLTK data path for serverless/restricted environments
+# Use /tmp directory which is writable in serverless environments
+nltk_data_dir = '/tmp/nltk_data'
+os.makedirs(nltk_data_dir, exist_ok=True)
+nltk.data.path.insert(0, nltk_data_dir)
+
+# Download necessary NLTK data to /tmp
 try:
     nltk.data.find('tokenizers/punkt_tab')
 except LookupError:
-    nltk.download('punkt_tab')
+    try:
+        nltk.download('punkt_tab', download_dir=nltk_data_dir, quiet=True)
+    except Exception as e:
+        print(f"Warning: Could not download punkt_tab: {e}")
+        # Try alternative punkt if punkt_tab fails
+        try:
+            nltk.download('punkt', download_dir=nltk_data_dir, quiet=True)
+        except Exception as e2:
+            print(f"Warning: Could not download punkt: {e2}")
+
 try:
     nltk.data.find('corpora/stopwords')
 except LookupError:
-    nltk.download('stopwords')
+    try:
+        nltk.download('stopwords', download_dir=nltk_data_dir, quiet=True)
+    except Exception as e:
+        print(f"Warning: Could not download stopwords: {e}")
 
 app = FastAPI()
 
