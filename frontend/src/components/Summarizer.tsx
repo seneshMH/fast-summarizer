@@ -66,7 +66,7 @@ export default function Summarizer() {
                             </h2>
                         </div>
                         <textarea
-                            className="flex-grow w-full p-4 rounded-2xl border border-white/10 bg-black/20 text-white placeholder-white/30 focus:ring-2 focus:ring-blue-400 focus:border-transparent focus:bg-black/30 resize-none transition-all duration-200 ease-in-out text-base leading-relaxed shadow-inner min-h-0"
+                            className="flex-grow w-full p-4 rounded-2xl border-2 border-white/10 bg-black/20 text-white placeholder-white/30 focus:border-blue-400 focus:bg-black/30 resize-none transition-all duration-200 ease-in-out text-base leading-relaxed shadow-inner min-h-0 outline-none"
                             placeholder="Paste your article, essay, or document here..."
                             value={text}
                             onChange={(e) => setText(e.target.value)}
