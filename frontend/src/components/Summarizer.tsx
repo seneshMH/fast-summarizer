@@ -57,9 +57,14 @@ export default function Summarizer() {
                 {/* Left Column: Input */}
                 <div className="flex flex-col space-y-4 h-full min-h-0">
                     <div className="flex-grow flex flex-col space-y-2 min-h-0">
-                        <label className="block text-xs font-semibold text-blue-100 uppercase tracking-wider flex-shrink-0">
-                            Original Text
-                        </label>
+                        <div className="flex items-center space-x-2 text-blue-100 border-b border-white/10 pb-2 flex-shrink-0">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                <path fillRule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z" clipRule="evenodd" />
+                            </svg>
+                            <h2 className="text-xs font-semibold uppercase tracking-wider">
+                                Original Text
+                            </h2>
+                        </div>
                         <textarea
                             className="flex-grow w-full p-4 rounded-2xl border border-white/10 bg-black/20 text-white placeholder-white/30 focus:ring-2 focus:ring-blue-400 focus:border-transparent focus:bg-black/30 resize-none transition-all duration-200 ease-in-out text-base leading-relaxed shadow-inner min-h-0"
                             placeholder="Paste your article, essay, or document here..."
