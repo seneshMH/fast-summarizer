@@ -7,16 +7,39 @@ from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from typing import List
 import uvicorn
+import os
+
+# Configure NLTK data path for serverless environments
+# Use /tmp directory which is writable in serverless environments
+nltk_data_dir = os.path.join('/tmp', 'nltk_data')
+os.makedirs(nltk_data_dir, exist_ok=True)
+nltk.data.path.append(nltk_data_dir)
+
+# Also check in the local directory for pre-downloaded data
+local_nltk_data = os.path.join(os.path.dirname(__file__), 'nltk_data')
+if os.path.exists(local_nltk_data):
+    nltk.data.path.insert(0, local_nltk_data)
 
 # Download necessary NLTK data
-try:
-    nltk.data.find('tokenizers/punkt')
-except LookupError:
-    nltk.download('punkt')
-try:
-    nltk.data.find('corpora/stopwords')
-except LookupError:
-    nltk.download('stopwords')
+def download_nltk_data():
+    """Download NLTK data if not already present"""
+    resources = [
+        ('tokenizers/punkt', 'punkt'),
+        ('corpora/stopwords', 'stopwords')
+    ]
+    
+    for resource_path, resource_name in resources:
+        try:
+            nltk.data.find(resource_path)
+        except LookupError:
+            try:
+                nltk.download(resource_name, download_dir=nltk_data_dir, quiet=True)
+            except Exception as e:
+                print(f"Warning: Could not download {resource_name}: {e}")
+                # Continue anyway - the data might be pre-packaged
+
+# Download data on startup
+download_nltk_data()
 
 app = FastAPI()
 
